@@ -1,0 +1,97 @@
+{% extends 'fashion/base.html' %}
+{% load static %}
+
+{% block title %}The Collection | DOMEMILY{% endblock %}
+{% block nav_collection %}active{% endblock %}
+
+{% block content %}
+<section class="pt-40 pb-16 bg-brand-dark text-white text-center relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,<svg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'><g fill=\'none\' fill-rule=\'evenodd\'><g fill=\'%23C9A962\' fill-opacity=\'0.4\'><path d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/></g></g></svg>');"></div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-6 lg:px-8 relative z-10">
+        <div class="reveal inline-flex items-center gap-2 px-4 py-2 border border-brand-gold/30 rounded-full mb-6">
+            <i data-lucide="sparkles" class="w-4 h-4 text-brand-gold"></i>
+            <span class="text-brand-gold-light text-sm font-medium uppercase tracking-wider">Inventory</span>
+        </div>
+        <h1 class="reveal delay-100 font-serif text-4xl md:text-6xl font-semibold mb-6">Our Collection</h1>
+        <p class="reveal delay-200 text-gray-400 max-w-2xl mx-auto text-lg">
+            Discover our handcrafted pieces that blend traditional African artistry with contemporary elegance.
+        </p>
+    </div>
+</section>
+
+<section class="py-20 bg-brand-cream dark:bg-[#0d0d0d] min-h-screen transition-colors duration-500">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12">
+            {% for product in products %}
+            <article class="reveal-scale group">
+                <a href="{% url 'product_detail' product.slug %}" class="block">
+                    <div class="relative aspect-[3/4] rounded-2xl overflow-hidden mb-5 bg-gray-100 dark:bg-[#1a1a1a] img-elegant img-glow shadow-sm group-hover:shadow-xl transition-all duration-300">
+                        <img src="{{ product.get_image_display_url }}" 
+                             alt="{{ product.name }}" 
+                             class="absolute inset-0 w-full h-full object-cover">
+                        
+                        <div class="absolute inset-0 img-shine pointer-events-none"></div>
+                        
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-white/95 dark:bg-[#1a1a1a]/95 backdrop-blur-md text-xs font-medium uppercase tracking-wider rounded-full shadow-sm text-brand-dark dark:text-white">
+                                {{ product.get_dress_type_display_safe|default:product.get_category_display }}
+                            </span>
+                        </div>
+                        
+                        <div class="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                            <span class="block w-full py-3 bg-white/95 dark:bg-[#1a1a1a]/95 backdrop-blur-sm text-center text-brand-dark dark:text-white text-sm font-semibold rounded-xl hover:bg-brand-dark hover:text-white dark:hover:bg-white dark:hover:text-brand-dark transition-colors">
+                                View Details
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="px-1 text-center sm:text-left">
+                        <h3 class="font-serif text-lg font-semibold text-brand-dark dark:text-white group-hover:text-brand-clay dark:group-hover:text-brand-gold transition-colors">
+                            {{ product.name }}
+                        </h3>
+                        
+                        <p class="font-medium text-brand-clay dark:text-brand-gold mt-1">
+                            ₵{{ product.price }}
+                        </p>
+                    </div>
+                </a>
+            </article>
+            {% empty %}
+            <div class="col-span-full text-center py-20">
+                <div class="w-20 h-20 mx-auto bg-brand-gold/10 rounded-full flex items-center justify-center mb-6">
+                    <i data-lucide="package" class="w-10 h-10 text-brand-gold"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-semibold mb-2 text-brand-dark dark:text-white">Coming Soon</h3>
+                <p class="text-gray-500 dark:text-gray-400 mb-8 max-w-md mx-auto">Our new collection is being crafted with love. Check back soon for exclusive pieces.</p>
+                <a href="{% url 'contact' %}" class="inline-flex items-center gap-2 px-6 py-3 bg-brand-dark dark:bg-white text-white dark:text-brand-dark rounded-full font-medium hover:bg-brand-clay transition-colors">
+                    <span>Contact Us</span>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-24 pt-16 border-t border-brand-dark/5 dark:border-white/10">
+            <h3 class="font-serif text-2xl font-semibold mb-4 text-brand-dark dark:text-white">Don't see what you're looking for?</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-8">We specialize in bespoke tailoring for unique occasions.</p>
+            <a href="{% url 'contact' %}" class="inline-flex items-center gap-3 px-8 py-3 bg-brand-dark dark:bg-brand-gold text-white dark:text-brand-dark font-medium rounded-full hover:bg-brand-clay dark:hover:bg-brand-gold-light transition-all duration-300 shadow-lg hover:shadow-xl">
+                <span>Request Custom Design</span>
+                <i data-lucide="scissors" class="w-4 h-4"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+    });
+</script>
+{% endblock %}

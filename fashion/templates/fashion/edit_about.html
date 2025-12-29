@@ -1,0 +1,93 @@
+{% extends 'fashion/base.html' %}
+{% load static %}
+
+{% block title %}Edit About Page | DOMEMILY Admin{% endblock %}
+
+{% block content %}
+<section class="pt-32 pb-20 bg-brand-cream dark:bg-[#0d0d0d] min-h-screen">
+    <div class="max-w-2xl mx-auto px-6 lg:px-8">
+        
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-2 px-4 py-2 bg-brand-gold/10 rounded-full mb-4">
+                <i data-lucide="layout" class="w-4 h-4 text-brand-gold"></i>
+                <span class="text-brand-clay dark:text-brand-gold text-sm font-semibold uppercase tracking-wider">Content Management</span>
+            </div>
+            <h1 class="font-serif text-3xl md:text-4xl font-semibold text-brand-dark dark:text-white">Edit About Page</h1>
+        </div>
+
+        {% if messages %}
+        <div class="mb-8 space-y-4">
+            {% for message in messages %}
+            <div class="p-4 rounded-xl flex items-center gap-3 {% if message.tags == 'success' %}bg-green-50 text-green-700 border border-green-200{% else %}bg-red-50 text-red-700 border border-red-200{% endif %}">
+                <i data-lucide="{% if message.tags == 'success' %}check-circle{% else %}alert-circle{% endif %}" class="w-5 h-5"></i>
+                <p>{{ message }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="bg-white dark:bg-[#1a1a1a] rounded-3xl shadow-xl p-8 border border-gray-100 dark:border-gray-800">
+            <form method="post" enctype="multipart/form-data" class="space-y-8">
+                {% csrf_token %}
+                
+                <div>
+                    <h3 class="font-serif text-xl font-semibold mb-4 text-brand-dark dark:text-white">Founder Image</h3>
+                    <div class="flex items-start gap-6">
+                        <div class="w-24 h-32 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0 border border-gray-200">
+                            {% if content.get_founder_display_url %}
+                                <img src="{{ content.get_founder_display_url }}" class="w-full h-full object-cover">
+                            {% else %}
+                                <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                    <i data-lucide="user" class="w-8 h-8"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Upload New Image</label>
+                            <input type="file" name="founder_image" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-gold/10 file:text-brand-clay hover:file:bg-brand-gold/20 transition-colors">
+                            <p class="text-xs text-gray-500 mt-2">Recommended: Portrait orientation (3:4 ratio)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="h-px bg-gray-100 dark:bg-gray-800"></div>
+
+                <div>
+                    <h3 class="font-serif text-xl font-semibold mb-4 text-brand-dark dark:text-white">Studio Image</h3>
+                    <div class="flex items-start gap-6">
+                        <div class="w-32 h-24 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0 border border-gray-200">
+                            {% if content.get_studio_display_url %}
+                                <img src="{{ content.get_studio_display_url }}" class="w-full h-full object-cover">
+                            {% else %}
+                                <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                    <i data-lucide="home" class="w-8 h-8"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Upload New Image</label>
+                            <input type="file" name="studio_image" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-gold/10 file:text-brand-clay hover:file:bg-brand-gold/20 transition-colors">
+                            <p class="text-xs text-gray-500 mt-2">Recommended: Landscape orientation (16:9 ratio)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-6 border-t border-gray-100 dark:border-gray-800 flex justify-end gap-4">
+                    <a href="{% url 'manage_dresses' %}" class="px-6 py-3 border border-gray-300 rounded-full font-medium hover:bg-gray-50 transition-colors dark:text-white dark:border-gray-600 dark:hover:bg-gray-800">Cancel</a>
+                    <button type="submit" class="px-8 py-3 bg-brand-dark dark:bg-brand-gold text-white dark:text-brand-dark rounded-full font-semibold hover:bg-brand-clay transition-colors shadow-lg shadow-brand-gold/20">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => lucide.createIcons());
+</script>
+{% endblock %}
